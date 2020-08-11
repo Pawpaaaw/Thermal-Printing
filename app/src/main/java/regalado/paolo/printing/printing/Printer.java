@@ -52,9 +52,19 @@ public class Printer implements PrintTable {
     @Override
     //for left and right setup
     public void leftRightFormatNormal(String title, String body) throws IOException {
-        int space = calculateSpace(title);
-        String format = getFormat(space);
-        writeOutput(String.format(format, title, body), NORMAL, ALIGN_RIGHT);
+        int leftTextDefaultLength = maxLength/2;
+        if (title.length() > leftTextDefaultLength) {
+            String firstLeftText = title.substring(0, leftTextDefaultLength);
+            String secondLeftText = title.substring(leftTextDefaultLength, title.length());
+            printNormalLeft(firstLeftText);
+            int space = calculateSpace(secondLeftText);
+            String format = getFormat(space);
+            writeOutput(String.format(format, secondLeftText, body), NORMAL, ALIGN_RIGHT);
+        } else {
+            int space = calculateSpace(title);
+            String format = getFormat(space);
+            writeOutput(String.format(format, title, body), NORMAL, ALIGN_RIGHT);
+        }
     }
 
     @Override
